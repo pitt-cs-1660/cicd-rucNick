@@ -73,7 +73,7 @@ jobs:
         name: Authenticate to GCP
         with:
           project_id: 'cicd-rucnick'
-          workload_identity_provider: 'projects/012345678901/locations/global/workloadIdentityPools/github-actions/providers/github'  # Your Workload Identity Provider
+          workload_identity_provider: 'projects/cicd-rucnick/locations/global/workloadIdentityPools/github-actions/providers/github' 
 
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
@@ -94,5 +94,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            us-central1-docker.pkg.dev/cc-spring2025/fastapi-repo/fastapi-server:${{ github.sha }}
-            us-central1-docker.pkg.dev/cc-spring2025/fastapi-repo/fastapi-server:latest
+            us-central1-docker.pkg.dev/cicd-rucnick/fastapi-repo/fastapi-server:${{ github.sha }}
+            us-central1-docker.pkg.dev/cicd-rucnick/fastapi-repo/fastapi-server:latest
