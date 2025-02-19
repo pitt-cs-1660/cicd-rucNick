@@ -10,17 +10,17 @@ services:
       timeout: 60s
       retries: 5
     ### Add environment variables here
-      environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgrespassword
-      POSTGRES_DB: tasksdb
-      POSTGRES_HOST: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_DB=tasksdb
+      - POSTGRES_HOST=postgres
     ### Add depends postgres here
     depends_on:
-    - postgres
+      - postgres
     ### expose ports here
     ports:
-    - "8000:8000"
+      - "8000:8000"
     volumes:
       - ./cc_compose:/app/cc_compose:Z
       - ./static:/app/static:Z
