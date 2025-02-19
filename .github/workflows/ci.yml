@@ -9,8 +9,10 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Docker compose config
         run: docker compose config
+
       - name: Verify Dockerfile
         run: |
           DOCKERFILE=Dockerfile
@@ -18,7 +20,7 @@ jobs:
             echo "❌ Dockerfile not found!"
             exit 1
           fi
-      
+
           # Check number of stages
           STAGE_COUNT=$(grep -c '^FROM' "$DOCKERFILE")
           echo "✅ Found $STAGE_COUNT stages in the Dockerfile."
@@ -26,7 +28,7 @@ jobs:
             echo "❌ Dockerfile must have at least 2 stages (multi-stage build required)."
             exit 1
           fi
-      
+
           # Check base image
           if ! grep -q '^FROM python:3.11-buster' "$DOCKERFILE"; then
             echo "❌ Base image is not 'python:3.11-buster'"
@@ -34,7 +36,7 @@ jobs:
           else
             echo "✅ Base image is 'python:3.11-buster'"
           fi
-      
+
           # Check WORKDIR
           if ! grep -q '^WORKDIR /app' "$DOCKERFILE"; then
             echo "❌ WORKDIR is not set to '/app'"
@@ -50,11 +52,14 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Docker compose up
         run: docker compose up -d --wait
+
       - name: Integration tests
         run: |
           ./tests/api_tests.sh
+
       - name: Docker compose down
         run: docker compose down
 
@@ -68,12 +73,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - id: 'auth'
+      - id: auth
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: 'projects/466535755609/locations/global/workloadIdentityPools/github-actions/providers/github'
-          service_account: 'roles-artifactregistry-createo@cicd-rucnick.iam.gserviceaccount.com'
+          service_account: 'roles-artifactregistry-createo@cicd-rucnick.iam.gserviceaccount.com' 
           project_id: 'cicd-rucnick'
 
       - name: Set up Cloud SDK
