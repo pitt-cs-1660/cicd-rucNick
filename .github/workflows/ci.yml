@@ -73,7 +73,7 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: 'projects/466535755609/locations/global/workloadIdentityPools/github-actions/providers/github'
-          service_account: 'roles-artifactregistry-create@cicd-rucnick.iam.gserviceaccount.com'
+          service_account: 'roles-artifactregistry-createo@cicd-rucnick.iam.gserviceaccount.com'
           project_id: 'cicd-rucnick'
 
       - name: Set up Cloud SDK
