@@ -73,17 +73,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Authenticate with GCP using Workload Identity Federation
-      - uses: 'google-github-actions/auth@v2'
-        id: auth
-        name: Authenticate to GCP
+      # Authenticate to GCP using Workload Identity Federation
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
           project_id: 'cicd-rucnick'
-          workload_identity_provider: 'projects/466535755609/locations/global/workloadIdentityPools/github-actions/providers/github'
-          service_account: 'roles-artifactregistry-createo@cicd-rucnick.iam.gserviceaccount.com'
-          # Note: Verify that the service account email is correct in your project.
+          workload_identity_provider: 'projects/466535755609/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          service_account: 'artifactregistry-pusher@cicd-rucnick.iam.gserviceaccount.com'
 
-      # Configure Docker to push to Artifact Registry (region us-central1)
+      # Set up Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      # Configure Docker for Artifact Registry
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
@@ -103,3 +105,4 @@ jobs:
           tags: |
             us-central1-docker.pkg.dev/cicd-rucnick/fastapi-repo/fastapi-server:${{ github.sha }}
             us-central1-docker.pkg.dev/cicd-rucnick/fastapi-repo/fastapi-server:latest
+
